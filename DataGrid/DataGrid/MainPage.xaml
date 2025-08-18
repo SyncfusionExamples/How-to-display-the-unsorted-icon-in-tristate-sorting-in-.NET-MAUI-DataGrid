@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:local="clr-namespace:DataGrid"
+             x:Class="DataGrid.MainPage">
+
+    <ContentPage.BindingContext>
+        <local:OrderInfoRepository x:Name="viewModel" />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="Descending">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource Color="Red" Glyph="&#xe701;"
+                                 FontFamily="{OnPlatform iOS=MauiMaterialAssets, MacCatalyst=MauiMaterialAssets, WinUI=MauiMaterialAssets.ttf#, Android=MauiMaterialAssets.ttf#}"
+                                 Size="44" />
+                    </Image.Source>
+                </Image>
+            </DataTemplate>
+            <DataTemplate x:Key="Ascending">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource Color="Green" Glyph="&#xe702;"
+                                 FontFamily="{OnPlatform iOS=MauiMaterialAssets, MacCatalyst=MauiMaterialAssets, WinUI=MauiMaterialAssets.ttf#, Android=MauiMaterialAssets.ttf#}"
+                                 Size="44" />
+                    </Image.Source>
+                </Image>
+            </DataTemplate>
+
+            <local:ColumnSortStateViewModel x:Key="SortStateViewModel" />
+
+            <local:InvertBooleanConverter x:Key="InvertBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <syncfusion:SfDataGrid x:Name="dataGrid"
+                              SortingMode="Multiple"
+                              AutoGenerateColumnsMode="None"
+                              AllowTriStateSorting="True"
+                              GridLinesVisibility="Both"
+                              HeaderGridLinesVisibility="Both"
+                              ItemsSource="{Binding OrderInfoCollection}">
+
+            <syncfusion:SfDataGrid.SortIconTemplate >
+                <local:SortIconTemplate AscendingTemplate="{StaticResource Ascending }" DescendingTemplate="{StaticResource Descending} " />
+            </syncfusion:SfDataGrid.SortIconTemplate>
+
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:DataGridNumericColumn HeaderText="Order ID" Format="0"
+                                                MappingName="OrderID" Width="150">
+                    <syncfusion:DataGridNumericColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Grid.Column="0" 
+                                       Text="Order ID"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                                
+                                <Label Grid.Column="1"
+                                       Text="↕"
+                                       TextColor="Gray"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="End"
+                                       Margin="0,0,5,0"
+                                       IsVisible="{Binding Source={StaticResource SortStateViewModel}, Path=IsOrderIDSorted, Converter={StaticResource InvertBooleanConverter},ConverterParameter={x:Reference dataGrid}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:DataGridNumericColumn.HeaderTemplate>
+                </syncfusion:DataGridNumericColumn>
+                
+                <syncfusion:DataGridTextColumn HeaderText="Customer ID"
+                                              MappingName="CustomerID" Width="150">
+                    <syncfusion:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Grid.Column="0" 
+                                       Text="Customer ID"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                                
+                                <Label Grid.Column="1"
+                                       Text="↕"
+                                       TextColor="Gray"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="End"
+                                       Margin="0,0,5,0"
+                                       IsVisible="{Binding Source={StaticResource SortStateViewModel}, Path=IsCustomerIDSorted, Converter={StaticResource InvertBooleanConverter},ConverterParameter={x:Reference dataGrid}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:DataGridTextColumn.HeaderTemplate>
+                </syncfusion:DataGridTextColumn>
+                
+                <syncfusion:DataGridTextColumn HeaderText="Ship Country"
+                                              MappingName="ShipCountry" Width="150">
+                    <syncfusion:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Grid.Column="0" 
+                                       Text="Ship Country"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                                
+                                <Label Grid.Column="1"
+                                       Text="↕"
+                                       TextColor="Gray"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="End"
+                                       Margin="0,0,5,0"
+                                       IsVisible="{Binding Source={StaticResource SortStateViewModel}, Path=IsShipCountrySorted, Converter={StaticResource InvertBooleanConverter},ConverterParameter={x:Reference dataGrid}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:DataGridTextColumn.HeaderTemplate>
+                </syncfusion:DataGridTextColumn>
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+    </Grid>
+</ContentPage>
